@@ -1,0 +1,23 @@
+version: "3.7"
+
+volumes:
+  avito-postgres:
+
+networks:
+  avito-net:
+
+services:
+  database:
+    container_name: avito-postgres
+    image: postgres
+    restart: unless-stopped
+    networks:
+      - avito-net
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      - POSTGRES_DB=avito
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - avito-postgres:/var/lib/postgresql/data
