@@ -39,9 +39,20 @@ async def select_user(user_id: int) -> dict:
 
 async def insert_link(link_data: LinkData) -> dict:
     conn = await init_db()
-    await conn.execute("INSERT INTO links (telegram_id, link) VALUES ($1, $2)", link_data.user_id, link_data.link)
+    await conn.execute("INSERT INTO links (telegram_id, link) VALUES ($1, $2)", link_data.telegram_id, link_data.link)
     await conn.close()
     return {"status": "Link added"}
+
+
+async def select_links(telegram_id: int) -> list[str]:
+    conn = await init_db()
+    rows = await conn.fetch("SELECT link FROM links WHERE telegram_id = $1", telegram_id)
+    await conn.close()
+    links = [row['link'] for row in rows]
+    print(links)
+    return links
+
+        
 
 async def delete_link(link_data: LinkData) -> dict:
     conn = await init_db()

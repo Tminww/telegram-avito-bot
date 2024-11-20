@@ -5,7 +5,7 @@ class User(BaseModel):
     username: str
 
 class LinkData(BaseModel):
-    user_id: int
+    telegram_id: int
     link: str
 
 class Notification(BaseModel):

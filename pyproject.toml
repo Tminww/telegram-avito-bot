@@ -6,7 +6,7 @@ authors = ["Олейник Серафим <serafim.oleynik.5777@yandex.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 fastapi = "^0.115.4"
 pydantic = "^2.9.2"
 asyncpg = "^0.30.0"

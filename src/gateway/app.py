@@ -2,7 +2,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 import requests
 from src.schemas.schemas import User, LinkData, Notification
-from src.database.database import insert_user, select_user, insert_link
+from src.database.database import insert_user, select_links, select_user, insert_link
 
 app = FastAPI()
 
@@ -41,14 +41,12 @@ async def delete_link(link_data: LinkData):
 
 @app.get("/links/{user_id}")
 async def get_links(user_id: int):
-    conn = await init_db()
     try:
-        rows = await conn.fetch("SELECT link FROM links WHERE user_id = $1", user_id)
-        return {"links": [row['link'] for row in rows]}
+        links = await select_links(user_id)
+        return {"links": links}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        await conn.close()
+
         
 @app.post("/notify/")
 async def notify_user(notification: Notification):
